@@ -1,18 +1,11 @@
 defmodule SimpleServer do
-  @moduledoc """
-  Documentation for SimpleServer.
-  """
 
-  @doc """
-  Hello world.
+  use GenServer
 
-  ## Examples
+  def init(state = %SimpleServer.SimpleConfig{}) do
+    {:ok, state}
+  end
 
-      iex> SimpleServer.hello
-      :world
-
-  """
-  def hello do
-    :world
+  def start do
   end
 end
