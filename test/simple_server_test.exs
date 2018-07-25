@@ -2,7 +2,12 @@ defmodule SimpleServerTest do
   use ExUnit.Case
   doctest SimpleServer
 
-  test "greets the world" do
-    assert SimpleServer.hello() == :world
+  setup do
+    {:ok, _pid} = GenServer.start_link(SimpleServer, %SimpleConfig{})
+    :ok
+  end
+
+  test "init" do
+    #assert GenServer.start_link(SimpleServer, %SimpleConfig{}) == {:ok, pid}
   end
 end
