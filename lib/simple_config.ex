@@ -1,3 +1,3 @@
 defmodule SimpleConfig do
-  defstruct [:max_connections, :timeout]
+  defstruct [:port, :packet, :active, :reuseaddr]
 end
