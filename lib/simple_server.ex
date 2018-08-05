@@ -11,23 +11,23 @@ defmodule SimpleServer do
   defp loop(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
     IO.puts('Looping')
-    serve(client)
+    Task.start_link(fn -> serve(client) end)
   end
 
   defp serve(socket) do
-    socket
-    |> read()
-    |> write()
+    {socket, data} = socket
+                      |> read()
+    write(socket, data)
 
     serve(socket)
   end
 
   defp read(socket) do
     {:ok, data} = :gen_tcp.recv(socket, 0)
-    socket
+    {socket, data}
   end
 
-  defp write(socket) do
-    :gen_tcp.send(socket, SimpleFormats.format_response())
+  defp write(socket, response) do
+    :gen_tcp.send(socket, SimpleFormats.format_response(response))
   end
 end

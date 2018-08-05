@@ -1,7 +1,7 @@
 defmodule SimpleFormats do
 
-  def format_response do
-    format_headers <> "\n" <> format_body
+  def format_response(response) do
+    format_headers() <> "\n" <> format_body(response)
   end
 
   defp format_headers do
@@ -13,9 +13,9 @@ defmodule SimpleFormats do
     """
   end
 
-  defp format_body do
+  defp format_body(response) do
      """
-      Here is your response from the server!
+      Here is your response from the server: #{response}!
     """
   end
 end
