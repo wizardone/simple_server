@@ -1,22 +1,22 @@
 defmodule SimpleServer do
 
+  use GenServer
+
   @options [:binary, packet: :line, active: false, reuseaddr: true]
 
-  def init(state = %{}) do
+  def init(state) do
     {:ok, socket} = :gen_tcp.listen(4000, @options)
-    pid = spawn(fn -> loop(socket) end)
-    {:ok, pid}
+    loop_socket(socket)
+    {:ok, state}
   end
 
-  defp loop(socket) do
-    IO.puts('Looping')
+  defp loop_socket(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
     Task.async(fn -> serve(client) end)
-    loop(socket)
+    loop_socket(socket)
   end
 
   defp serve(socket) do
-    IO.inspect(self())
     {socket, data} = socket
                      |> read()
 
