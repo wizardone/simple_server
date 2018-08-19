@@ -4,8 +4,9 @@ defmodule SimpleServer do
 
   @options [:binary, packet: :line, active: false, reuseaddr: true]
 
-  def init(state) do
-    {:ok, socket} = :gen_tcp.listen(4000, @options)
+  def init(state = %SimpleConfig{}) do
+    IO.inspect(state)
+    {:ok, socket} = :gen_tcp.listen(4000, Map.to_list(state))
     loop_socket(socket)
     {:ok, state}
   end

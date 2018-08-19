@@ -1,3 +1,7 @@
 defmodule SimpleConfig do
-  defstruct [:port, :packet, :active, :reuseaddr]
+  defstruct port: 4000,
+    packet: :line,
+    active: false,
+    reuseaddr: true,
+    binary: true
 end
