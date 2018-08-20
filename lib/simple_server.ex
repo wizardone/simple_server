@@ -2,11 +2,10 @@ defmodule SimpleServer do
 
   use GenServer
 
-  @options [:binary, packet: :line, active: false, reuseaddr: true]
+  @excluded_options [:port, :__struct__]
 
   def init(state = %SimpleConfig{}) do
-    IO.inspect(state)
-    {:ok, socket} = :gen_tcp.listen(4000, Map.to_list(state))
+    {:ok, socket} = :gen_tcp.listen(Map.get(state, :port), format_config(state))
     loop_socket(socket)
     {:ok, state}
   end
@@ -33,5 +32,11 @@ defmodule SimpleServer do
 
   defp write(socket, response) do
     :gen_tcp.send(socket, SimpleFormats.format_response(response))
+  end
+
+  defp format_config(state) do
+    state
+    |> Map.drop(@excluded_options)
+    |> Map.to_list
   end
 end
