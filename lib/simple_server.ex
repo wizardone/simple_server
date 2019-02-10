@@ -19,15 +19,16 @@ defmodule SimpleServer do
   defp serve(socket) do
     {socket, data} = socket
                      |> read()
-
     write(socket, data)
 
     serve(socket)
   end
 
   defp read(socket) do
-    {:ok, data} = :gen_tcp.recv(socket, 0)
-    {socket, data}
+    case :gen_tcp.recv(socket, 0) do
+      {:ok, data} -> {socket, data}
+      {:error, message} -> {socket, message}
+    end
   end
 
   defp write(socket, response) do

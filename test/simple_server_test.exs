@@ -3,11 +3,10 @@ defmodule SimpleServerTest do
   doctest SimpleServer
 
   setup do
-    {:ok, _pid} = GenServer.start_link(SimpleServer, %{})
+    {:ok, _pid} = GenServer.start_link(SimpleServer, %SimpleConfig{})
     :ok
   end
 
   test "init" do
-    assert GenServer.start_link(SimpleServer, %{}) == {:ok, ''}
   end
 end
