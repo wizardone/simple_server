@@ -19,6 +19,7 @@ defmodule SimpleServer do
   defp serve(socket) do
     {socket, data} = socket
                      |> read()
+    IO.inspect(data)
     write(socket, data)
 
     serve(socket)
