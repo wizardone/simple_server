@@ -19,7 +19,7 @@ defmodule SimpleServer do
   defp serve(socket) do
     {socket, data} = socket
                      |> read()
-    IO.inspect(data)
+                     #IO.inspect(data)
     write(socket, data)
 
     serve(socket)
@@ -33,7 +33,13 @@ defmodule SimpleServer do
   end
 
   defp write(socket, response) do
-    :gen_tcp.send(socket, SimpleFormats.format_response(response))
+    # TODO: Do we really need to patter match here. closed and enotconn
+    # seem to be passed after the initial message
+    case response do
+      :closed -> nil
+      :enotconn -> nil
+      _ -> :gen_tcp.send(socket, SimpleFormats.format_response(response))
+    end
   end
 
   defp format_config(state) do
