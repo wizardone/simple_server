@@ -4,6 +4,10 @@ defmodule SimpleServer do
 
   @excluded_options [:port, :__struct__]
 
+  def start_link(state) do
+    GenServer.start_link(__MODULE__, state, name: __MODULE__)
+  end
+
   def init(state = %SimpleConfig{}) do
     {:ok, socket} = :gen_tcp.listen(Map.get(state, :port), format_config(state))
     loop_socket(socket)
